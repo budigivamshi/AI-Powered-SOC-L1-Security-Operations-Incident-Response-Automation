@@ -1,0 +1,471 @@
+{
+  "name": "SOC L1 - AI Security Alert Investigation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "SOC-Alert",
+        "options": {}
+      },
+      "id": "e7ec9f9b-2224-485c-bc8d-26ce1dc823f3",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        336,
+        224
+      ],
+      "webhookId": "ea475c81-38fe-49c3-af01-fbeaeb0cfb30"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b08b5948-3f8b-4527-b0a8-1c0eedaee03b",
+              "name": "Alert _Type",
+              "value": "={{ $json.body.alert_type }}",
+              "type": "string"
+            },
+            {
+              "id": "3b9db701-9613-4f0c-bb87-9cbb908e88ea",
+              "name": "=Sender",
+              "value": "={{ $json.body.sender }}",
+              "type": "string"
+            },
+            {
+              "id": "afd7d11e-7f78-42f6-a3c6-2e7068e3d739",
+              "name": "=Subject",
+              "value": "={{ $json.body.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "1a75356c-601a-43b6-b296-4c56167bed2e",
+              "name": "Email_Body",
+              "value": "={{ $json.body.body }}",
+              "type": "string"
+            },
+            {
+              "id": "56bbe1d3-2aec-4a01-9b37-3db5986b249e",
+              "name": "URL",
+              "value": "={{ $json.body.url }}",
+              "type": "string"
+            },
+            {
+              "id": "f59c1897-f445-4632-9c82-126948e98756",
+              "name": "Source_ip",
+              "value": "={{ $json.body.source_ip }}",
+              "type": "string"
+            },
+            {
+              "id": "d75f374b-40f9-4cc4-ba7d-3621900b8c9d",
+              "name": "Hash",
+              "value": "={{ $json.body.hash }}",
+              "type": "string"
+            },
+            {
+              "id": "e9cf3c1b-e1a2-4176-b452-2b2668dde805",
+              "name": "Classification",
+              "value": "={{ $json.body.classification }}",
+              "type": "string"
+            },
+            {
+              "id": "a1d50f7b-e093-45c6-a8bc-6ed5b407eaad",
+              "name": "Severity",
+              "value": "={{ $json.body.severity }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f9262018-fb0e-428f-9445-a2cad918cd39",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        656,
+        -384
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Investigate this SOC security alert as an L1 SOC Analyst.\n\nAlert Type: {{ $json.AlertType }}\nSender: {{ $json.Sender }}\nSubject: {{ $json.Subject }}\nEmail Body: {{ $json.Email_Body }}\nURL: {{ $json.URL }}\nSource IP: {{ $json.Source_ip }}\nHash: {{ $json.Hash }}\n\nPerform:\n\n1. Alert triage\n2. Initial validation\n3. Investigation\n4. Correlation\n5. Preliminary classification\n6. Severity assessment\n7. Recommended SOC L1 action\n\nIMPORTANT:\nYou MUST use the Splunk tool for every security alert.\n\nSearch Splunk for related security events.\nFor failed-login alerts, investigate EventCode 4625.\n\nDo not skip the Splunk investigation.\n\nIf Splunk returns no matching events, state:\n\"No matching Splunk events found.\"\n\nNever invent Splunk results.\n\nClassification: {{ $json.Classification }}\nSeverity: {{ $json.Severity }}\n\nIMPORTANT:\nIf Classification and Severity are provided in the alert input, preserve those values in the final investigation.\nDo not change them unless there is clear contradictory evidence.",
+        "options": {
+          "systemMessage": "You are an L1 SOC Analyst AI Agent responsible for investigating security alerts.\n\nYour goal is to follow the standard SOC L1 investigation process:\n\nALERT → TRIAGE → VALIDATE → INVESTIGATE → CORRELATE → CLASSIFY → ESCALATE/RESPOND → DOCUMENT\n\nYour responsibilities:\n\n1. ALERT\n- Understand the incoming security alert.\n- Identify the alert type, affected user, host, IP address, domain, URL, file hash, and other available indicators.\n\n2. TRIAGE\n- Determine what happened.\n- Identify suspicious indicators.\n- Assess the initial risk.\n- Prioritize the alert based on available evidence.\n\n3. VALIDATE\n- Determine whether the alert is legitimate, suspicious, or likely a false positive.\n- Validate indicators using available security tools.\n- Never assume an indicator is malicious without evidence.\n\n4. INVESTIGATE\n- Use Splunk to search for related security events.\n- Investigate Windows and Sysmon events when available.\n- Look for related authentication, process, network, DNS, file, and endpoint activity.\n- Use VirusTotal to investigate IP addresses, domains, URLs, and file hashes when the tool is available.\n- Use PhishTool for phishing-related investigation when available.\n- Use Wireshark/tshark for network or PCAP investigation when available.\n\n5. CORRELATE\n- Correlate the alert with related events and indicators.\n- Connect activity across users, hosts, IPs, processes, files, domains, URLs, and timestamps.\n- Look for evidence of compromise or malicious activity.\n\n6. CLASSIFY\nClassify the incident as one of:\n- True Positive\n- False Positive\n- Suspicious / Requires Further Investigation\n\nExplain the reason for the classification.\n\n7. SEVERITY\nAssign one severity:\n- Low\n- Medium\n- High\n- Critical\n\nExplain briefly why the severity was assigned.\n\n8. ESCALATE / RESPOND\n- Recommend the appropriate SOC L1 response.\n- Escalate confirmed or potentially serious incidents to SOC L2.\n- Do not automatically perform destructive or high-impact actions.\n- Human approval is required before high-impact response actions.\n\n9. DOCUMENT\nCreate a concise investigation summary suitable for a Jira incident.\n\nFor every investigation, provide:\n\n1. Alert Summary\n2. Initial Triage\n3. Indicators of Interest\n4. Splunk Investigation\n5. Threat Intelligence Findings\n6. Correlation Findings\n7. Classification\n8. Severity\n9. Recommended Action\n10. Jira Investigation Summary\n\nIMPORTANT RULES:\n\n- Never invent tool results.\n- Never claim an IOC is malicious without supporting evidence.\n- Clearly separate observed facts from assumptions.\n- If a tool is unavailable, say \"Tool unavailable.\"\n- If information is missing, say \"Information unavailable.\"\n- Do not fabricate Splunk, VirusTotal, PhishTool, Wireshark, or Jira results.\n- Use the available tools whenever they are relevant.\n- Keep the investigation focused on SOC L1 responsibilities.\n- Do not perform destructive actions automatically.\n- Ask for human approval before high-impact actions.",
+          "maxIterations": 10
+        }
+      },
+      "id": "a913f7c2-9c58-4476-972c-7a3486660021",
+      "name": "SOC L1 Investigation Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        64,
+        -400
+      ]
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.5-flash-lite",
+        "options": {}
+      },
+      "id": "2151af06-f60b-4c67-ac44-2fbd005e53be",
+      "name": "Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -16,
+        -48
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "iG7xo12w4Qs0hSFr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Perform the final SOC L1 investigation.\n\nPrevious SOC L1 Investigation:\n{{ $json.output }}\n\nCreate a complete investigation document for Jira.\n\nUse the available VirusTotal tool when relevant.\n\nYour output MUST contain:\n\nSOC L1 SECURITY INVESTIGATION\n\n1. ALERT DETAILS\nAlert Type:\nSender:\nSubject:\nEmail Body:\nURL:\nSource IP:\nHash:\n\n2. TRIAGE FINDINGS\n\n3. SPLUNK INVESTIGATION\n\n4. VIRUSTOTAL FINDINGS\n\n5. CORRELATION FINDINGS\n\n6. CLASSIFICATION\nChoose:\nTrue Positive\nFalse Positive\nSuspicious / Requires Further Investigation\n\n7. SEVERITY\nChoose:\nLow\nMedium\nHigh\nCritical\n\n8. REASON FOR CLASSIFICATION\n\n9. RECOMMENDED SOC L1 ACTION\n\n10. L2 ESCALATION\nState whether L2 escalation is required and explain why.\n\n11. FINAL INVESTIGATION SUMMARY\n\nImportant:\n- Use only available evidence.\n- Do not invent Splunk or VirusTotal results.\n- If information is unavailable, clearly say \"Information unavailable.\"\n- Clearly separate facts from assumptions.\n\nInput Classification: {{ $json.Classification }}\nInput Severity: {{ $json.Severity }}\n\nIMPORTANT:\nPreserve the provided Classification and Severity values.\nFor this test, Classification must remain True Positive and Severity must remain High.\n\n\nVIRUSTOTAL REQUIREMENT:\n\nYou MUST use the HTTP Request tool to investigate the available indicators in every security alert.\n\nUse the HTTP Request tool when the alert contains:\n- File hash\n- Source IP\n- URL\n- Domain\n\nUse the appropriate VirusTotal API lookup for the available indicator.\n\nInclude the actual VirusTotal findings in the investigation document.\n\nDo not invent VirusTotal results.\nIf the HTTP Request tool cannot verify an indicator, state:\n\"VirusTotal verification unavailable.\"\n\n\n\n\nJIRA REQUIREMENT:\n\nYou MUST use the Jira Software tool for every security alert.\n\nAfter completing the investigation:\n- Create a new Jira Incident.\n- Project: SOC Security Operations\n- Issue Type: Incident\n- Summary: SOC L1 Security Investigation\n- Put the complete investigation document in the Jira Description.\n- Include alert details, triage, Splunk findings, VirusTotal findings, correlation, classification, severity, recommended action, and L2 escalation.\n- Do not skip Jira creation.",
+        "options": {
+          "systemMessage": "You are the second-stage SOC L1 documentation agent. Using the first-stage investigation provided to you, enrich the findings with the VirusTotal HTTP Request tool when indicators (file hash, IP, URL, domain) are present, then produce a complete, evidence-based SOC L1 investigation document and create a Jira Incident (project: SOC Security Operations, issue type: Incident) containing it. Never invent tool results; if a tool is unavailable, say so. Do not perform destructive or high-impact actions without human approval.",
+          "maxIterations": 10
+        }
+      },
+      "id": "480d7cc3-7699-4f36-8277-8d1f4b81fc2b",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        976,
+        -112
+      ]
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.5-flash-lite",
+        "options": {}
+      },
+      "id": "3a6b23cb-0ceb-44df-a89f-1bb7788500e1",
+      "name": "Google Gemini Chat Model1",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        736,
+        160
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "iG7xo12w4Qs0hSFr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "project": {
+          "__rl": true,
+          "value": "10035",
+          "mode": "list",
+          "cachedResultName": "SOC Security Operations"
+        },
+        "issueType": {
+          "__rl": true,
+          "value": "10045",
+          "mode": "list",
+          "cachedResultName": "[System] Incident"
+        },
+        "summary": "=SOC L1 Security Investigation flow",
+        "additionalFields": {
+          "description": "={{ $json.output }}"
+        }
+      },
+      "id": "23449a1c-f4c5-4055-843d-3afa20fe180a",
+      "name": "Create an issue in Jira Software",
+      "type": "n8n-nodes-base.jiraTool",
+      "typeVersion": 1,
+      "position": [
+        1408,
+        176
+      ],
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "l01TeJf0JGIDBs1J",
+          "name": "Jira SW Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://www.virustotal.com/api/v3/domains/google.com",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-apikey",
+              "value": "1d08b4b41c9d5bf54cf9433a1f24a68f0af85e9d118b359f967860d57169df1e "
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "981048f9-7a2e-446f-8152-f1f62e1a9416",
+      "name": "virustotal_lookup",
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.5,
+      "position": [
+        1040,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "vambu0412@gmail.com",
+        "subject": "SOC L1 Security Alert - Investigation Completed",
+        "emailType": "text",
+        "message": "=SOC L1 Security Alert Investigation Completed  The security alert has been investigated by the SOC L1 automation.  Jira Incident: {{ $json.key }}  Please review the Jira incident for the complete investigation details.",
+        "options": {}
+      },
+      "id": "9d4bca82-b573-41d6-93a3-caa855a122d2",
+      "name": "Send a message",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1456,
+        -112
+      ],
+      "webhookId": "9641f1d1-caee-45b5-a6a6-c0b9f838f57d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QBo45FoIkFydudTU",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c27d8b8e-ce7b-4423-b5e5-6ba1e5568301",
+              "leftValue": "={{ $json.output }}",
+              "rightValue": "True Positive",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "5aed1f1e-d7af-487d-bac6-ad003c366489",
+              "leftValue": "={{ $json.output }}",
+              "rightValue": "High",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1232,
+        -384
+      ],
+      "id": "386b5d4a-1f9a-4b13-b2ae-d727d9bdeb40",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sendTo": "sritvamshi.edu.in@gmail.com",
+        "subject": "SOC L2 Escalation - High Severity Incident",
+        "emailType": "text",
+        "message": "=SOC L2 ESCALATION  A high-severity True Positive security incident has been detected.  Investigation Details:  {{ $json.output }}  Please review and investigate this incident at SOC L2.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1504,
+        -400
+      ],
+      "id": "9714ff87-296c-48b8-b152-597e3f572b26",
+      "name": "Send a message1",
+      "webhookId": "13359792-d031-48b3-b10e-9aad05f6099a",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QBo45FoIkFydudTU",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "search": "search index=* EventCode=4525",
+        "additionalFields": {}
+      },
+      "id": "1681dfaf-6e1c-40c5-a0c2-04c39e58cb0d",
+      "name": "Create a search job in Splunk",
+      "type": "n8n-nodes-base.splunkTool",
+      "typeVersion": 2,
+      "position": [
+        288,
+        -48
+      ],
+      "credentials": {
+        "splunkApi": {
+          "id": "gKVVYkDGFBsTvFxK",
+          "name": "Splunk account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "SOC L1 Investigation Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SOC L1 Investigation Agent": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "SOC L1 Investigation Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an issue in Jira Software": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "virustotal_lookup": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a search job in Splunk": {
+      "ai_tool": [
+        [
+          {
+            "node": "SOC L1 Investigation Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "05f5ff6c-4bdb-4eec-916f-191a231e5f9d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "faaf623943cd7c8433f48814a6b944ead1452a09dd0aeb0f53ffd702cb173f9c"
+  },
+  "nodeGroups": [],
+  "id": "5uLWN5RR9LqOwoK5",
+  "tags": []
+}
