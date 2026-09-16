@@ -1,0 +1,179 @@
+Delivered-To: sritvamshi.edu.in@gmail.com
+Received: by 2002:a05:6402:3713:b0:6a3:ade2:10d3 with SMTP id ek19csp5871244edb;
+        Tue, 15 Sep 2026 22:24:16 -0700 (PDT)
+X-Received: by 2002:a05:651c:509:b0:3a3:74d6:50aa with SMTP id 38308e7fff4ca-3a5dca2d837mr1738681fa.29.1789536256032;
+        Tue, 15 Sep 2026 22:24:16 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1789536256; cv=pass;
+        d=google.com; s=arc-20260327;
+        b=ViE0aufYXgIvjo9fjhMayFDVXjZIkBD9RTO0ZBVyUiLaOEawJSeRS+3IOPswrXwq4a
+         EPEhY4ivGfH7/1sFSMhfdJ4hLbbvw89mrZ3c50QqW/6us4Eyb33zcuYLqZ4v9pne51sY
+         O/NebK3BhX7tPEaRMYpBin6t1/O56GN3C2tRsFHeEVWOrgkhHEqzPqDgXsHsR5Whr2T5
+         KNnAwy2Cj+cuwK6u4WHIeRB+tkwEuvcN8TlADy0Vg1XnlsRX7OWi/Rxl8o7WIQTx6iUE
+         Zet/Rv9dRmr+hX1E5RY7BA4Q8svpLobE1befD1UnQL+/i1E/mkYZzwh38MndmaRbrImE
+         r5KQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=nZTOt5+rruwfwvNWABbBTd3wHuZEq9xt9az4u7qkwYM=;
+        fh=zjP8cXvq7ZoArGxCcggz4Gv8GBmMDNklep8JUtP8ED8=;
+        b=E45fYk3QzLtK5zCntqrpYvphGHO3hpY4cSfWO/IZdvQioOL1/vw8AK7ZhQmoz5URuv
+         ZYOLjRfnfv1wIbP/OQ8T0ShnCaHmeSY9TlX6L3NGLH+zazLrAOqKlOhUkMGbkef6S49I
+         oFwuzAsVGRio3tNhnCc7QtiEDZ7eNuW5qxBAioxEdceS/021z2UuxGtpuDBA2YSsE9zc
+         q42HQ3GXF/y3W9K1lLKG+xbNJ8E/9xzI+9IwnZR0r/mKG6d2ON4kF12DoB6UHm10j9Zv
+         UvzP38BYfaZp8aoUy+d35h5JLcQk8C7yvbuBZKcHvKldJD0PFerXBcjurOFQLGzWOPJE
+         DWjQ==;
+        dara=google.com
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20251104 header.b=ayFzhcIm;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of vambu0412@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=vambu0412@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@gmail.com
+Return-Path: <vambu0412@gmail.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id 38308e7fff4ca-3a5daf01172sor2210881fa.2.2026.09.15.22.24.15
+        for <sritvamshi.edu.in@gmail.com>
+        (Google Transport Security);
+        Tue, 15 Sep 2026 22:24:16 -0700 (PDT)
+Received-SPF: pass (google.com: domain of vambu0412@gmail.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20251104 header.b=ayFzhcIm;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of vambu0412@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=vambu0412@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@gmail.com
+ARC-Seal: i=1; a=rsa-sha256; t=1789536255; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Ye254SBfguiok3aegjGjo8/cJjQAsBTrwzQAK9naERkb53AyAGyPE9zIdi3fF2mA9E
+         +cJHEHtA0rxtOIFPN/LAKXgBUFlq4UR20Z2M+D1cZD6hEoONp1y1N0Z7F7XNZ4iDaP+p
+         WbvP7qRqrUEcHCNONlDi581QjZgnSwCBfeqC/FnefltLRsev4hIvHqSIOapEsh/Ql+ro
+         P0fvvCzcfAdQU1E/4249wYkU+aQcvjEe+/FHB6Tx+6rW8EoCXKCo/AzIpgJ8sq5sjivv
+         6534TCSqOTZn5ubJ+XC/SZz1aeMRX/vZ2QzUYLTNtX1BlWlJlafhV7gGIB1p5u7B5uGH
+         Lx5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=nZTOt5+rruwfwvNWABbBTd3wHuZEq9xt9az4u7qkwYM=;
+        fh=zjP8cXvq7ZoArGxCcggz4Gv8GBmMDNklep8JUtP8ED8=;
+        b=oHAs9h5q+Lh9HMCCrPsVmhzDFsgQ7C8VU+bAbuuoa+PhupPFiS2C/rn0z5HSc4YOTv
+         fNBrIyjXAffgg+ebpK6G8EfiAbSfwELQwTlqdsNZpy4OIamFh75yYW/XVd0mhy8WMd9S
+         IBEKkCm1t62zfHwpjhUObLHRZ/55EdtiW2HsWFm5uGRsmjmKstTotwtLG23+S223Qdun
+         Sgu+v0VBY5XZ896OGk8GP9ZnOzWm2NU9uSOjvyiCwEI9/3WrgGU0YQ279GkYHg/q+k7c
+         dVMpn3POV0Z7RrXaOTUg+4xAXsXg36aNpI7aRNgEMjzLf7liIzi42nVRBccyWMP+oCed
+         BcPw==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789536255; x=1790141055; dara=google.com;
+        h=content-type:to:subject:message-id:date:from:mime-version:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=nZTOt5+rruwfwvNWABbBTd3wHuZEq9xt9az4u7qkwYM=;
+        b=ayFzhcImDvAiIfMNmfYnZ4QaWHEqG1J6kd8/eAdFMeGUG+MW/mYjURv++jGYL/wEfA
+         gtql27gMzwdrzKKTXJ/8zX/1O3EvxZkn0lV7uVOjeDWsG9sdFwKSRkv7tE+woxhzGmOT
+         Huh2kOM8AWQZEg9wun4xzIwHLhLbY4FiKuuDa+752u7/A5hoGmGSLK3IZp3ra5TsCiCp
+         wv+t3fgUh/twY8Fi9ec/Idq6DCn2uflQ+q7nN3tM7riAD24CYJXfXfU1esTw2w8f41s+
+         Oov2tT+SywBX+JyKBlDx9FlNZrDW+/SIDcqRqQ8YFPWvkyO8WrUAih+6o313CkwNa6VU
+         jJRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789536255; x=1790141055;
+        h=content-type:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=nZTOt5+rruwfwvNWABbBTd3wHuZEq9xt9az4u7qkwYM=;
+        b=T+uOrdw/o1Vk7W3OVYXBVgDrOJ3imrFyHWbTNXn2qMIz+pk1x9Z8kjWOV0guzwyCe1
+         2jV4Nz4r2lJaJJQKfv4gFaNqKR5+ZzpcezHPmsFjXT+OMx8eg4vLD0HJp4wtK+AKMe+6
+         hO7GsjvZ0eqjWzeExl1vzPHXiHg5sN7Fh90NQuaj4+3umgQTCHKuNGGWkYy3dVwMqIYr
+         9SdH+CzTESvKzPm2OrKGPJF7lhxcMJubHNbygKD0pXJK+0vfFSoxGXm9NctPNWFvJIiR
+         LC/UD0MApWnX1OO/vowf6BOSOC9QvMSTLpH2D57/OT9rVIjd7OQCLjJBax+st6oR/7P1
+         s9rg==
+X-Gm-Message-State: AFuF++mcCtrOoP1I90jqUkV+IDF2Sn8VDhIPNwslDKcbJUwh9E7hf1HK
+	q5QJSWMEyC1clOCamPhYIE3+Jg+G0CepXjP8k4Jh339/9nj8zqqh33N3yLbClENQKthCOSKXCxZ
+	J9WCKOKae5475bFSofodxPNUZGq+3G8YjLw==
+X-Gm-Gg: AYBFou2B+8VHW5lISSQbj2pB1rh+k3uAuVn6yF5HgiaveaOQOw6zFRupsWuTJkCFENg
+	P1UzCLxOz/Z3hQIjevCq/wHlcfH7A8M0uWfCkKhGqPJw/m9r081gUS4xSyPa4yGAmiVgvuIZB2b
+	7HL2E/dT28qevPV+sm4JGiNVoLkZOtEXomgV7gnN4Fs28rK2J9151OgeLEVbpD29JBVrFoZiSIv
+	p87j5FqQW+xsnDe4SbW/NNuQMGXC+Zw9t1qPXMMEcjMKOjq++EDMS4XQCL+uWesEgO/ukTAS58N
+	N7aNlnDr+sb2V1nkSJFqz4kYxzxRym0Os38YYzaEmS8m8o02oA5I
+X-Received: by 2002:a05:651c:b22:b0:3a3:2ff2:f818 with SMTP id
+ 38308e7fff4ca-3a5dc9efd38mr1948141fa.13.1789536255459; Tue, 15 Sep 2026
+ 22:24:15 -0700 (PDT)
+Received: from 498586711441 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 16 Sep 2026 01:24:14 -0400
+Received: from 498586711441 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 16 Sep 2026 01:24:14 -0400
+MIME-Version: 1.0
+From: Vam Budigi <vambu0412@gmail.com>
+Date: Wed, 16 Sep 2026 01:24:14 -0400
+X-Gm-Features: AcwNN1VBWjZ1cCX1X6KyREWxp4IbnAZqhSCV5esoSUz7LRt54FD9kUQD4QXt8nw
+Message-ID: <CAN+JLMiMW1dNEGZKr7bX1eTV53sZUT3yfe=qca_ELHPF9j4aNA@mail.gmail.com>
+Subject: SOC L2 Escalation - High Severity Incident
+To: sritvamshi.edu.in@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+
+SOC L2 ESCALATION  A high-severity True Positive security incident has
+been detected.  Investigation Details:  SOC L1 SECURITY INVESTIGATION
+
+1. ALERT DETAILS
+Alert Type: Phishing / Suspicious File Execution
+Sender: Information unavailable.
+Subject: Information unavailable.
+Email Body: Information unavailable.
+URL: Information unavailable.
+Source IP: Information unavailable.
+Hash: 44d88612fea8a8f36de82e1278abb02f
+
+2. TRIAGE FINDINGS
+Initial review of the alert indicates a security notification
+triggered by file hash `44d88612fea8a8f36de82e1278abb02f`. No
+contextual sender, subject, URL, or source IP details were provided in
+the initial event context.
+
+3. SPLUNK INVESTIGATION
+Splunk search tooling verification indicates no additional internal
+log telemetry or endpoint execution history was provided for this
+specific alert context. Information unavailable.
+
+4. VIRUSTOTAL FINDINGS
+The file hash (`44d88612fea8a8f36de82e1278abb02f`) was queried using
+the VirusTotal HTTP Request API. The indicator returned multiple
+detections indicating malicious classification (associated with known
+test or malicious payloads).
+
+5. CORRELATION FINDINGS
+No broader internal correlation patterns or secondary alerts were
+identified across available logs linking this hash to internal host
+compromise.
+
+6. CLASSIFICATION
+True Positive
+
+7. SEVERITY
+High
+
+8. REASON FOR CLASSIFICATION
+The analyzed file hash returned positive malicious indicators on
+VirusTotal, confirming the presence of a known malicious or test
+payload artifact.
+
+9. RECOMMENDED SOC L1 ACTION
+- Isolate any affected endpoint if active execution is detected.
+- Block the file hash across endpoint protection tools (EDR).
+- Clear and close the ticket after verification.
+
+10. L2 ESCALATION
+L2 escalation is not required as this represents a straightforward
+indicator-based detection handled via standard L1 response playbooks.
+
+11. FINAL INVESTIGATION SUMMARY
+An alert concerning file hash `44d88612fea8a8f36de82e1278abb02f` was
+investigated. VirusTotal verification confirmed the hash as malicious.
+Standard containment and remediation actions are recommended.
+
+---
+**Jira Incident Created Successfully:**
+- **Project:** SOC Security Operations
+- **Issue Type:** Incident
+- **Summary:** SOC L1 Security Investigation
+- **Issue Key:** SOC-128  Please review and investigate this incident at SOC L2.
+
+---
+This email was sent automatically with n8n
+https://n8n.io
